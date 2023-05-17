@@ -1,6 +1,7 @@
-package domain
+package service
 
 import (
+	"csv-combiner/internal/company/domain/entity"
 	"errors"
 	"testing"
 )
@@ -32,19 +33,19 @@ func TestService_WriteCombined(t *testing.T) {
 
 	testCases := []struct {
 		Name         string
-		Names        map[string]Company
-		Descriptions map[string]Company
+		Names        map[string]entity.Company
+		Descriptions map[string]entity.Company
 		ExpectedData [][]string
 		WriteError   error
 	}{
 		{
 			Name: "Successfully write combined data",
-			Names: map[string]Company{
+			Names: map[string]entity.Company{
 				"1": {ID: "1", Name: "Company A"},
 				"2": {ID: "2", Name: "Company B"},
 				"3": {ID: "3", Name: "Company C"},
 			},
-			Descriptions: map[string]Company{
+			Descriptions: map[string]entity.Company{
 				"1": {ID: "1", Description: "Description A"},
 				"2": {ID: "2", Description: "Description B"},
 			},
@@ -57,10 +58,10 @@ func TestService_WriteCombined(t *testing.T) {
 		},
 		{
 			Name: "Error when writing data",
-			Names: map[string]Company{
+			Names: map[string]entity.Company{
 				"1": {ID: "1", Name: "Company A"},
 			},
-			Descriptions: map[string]Company{
+			Descriptions: map[string]entity.Company{
 				"1": {ID: "1", Description: "Description A"},
 			},
 			WriteError: errors.New("write error"),

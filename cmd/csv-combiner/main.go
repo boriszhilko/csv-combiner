@@ -3,7 +3,8 @@ package main
 import (
 	in "csv-combiner/internal/company/adapter/in/csv"
 	out "csv-combiner/internal/company/adapter/out/csv"
-	"csv-combiner/internal/company/domain"
+	"csv-combiner/internal/company/domain/entity"
+	"csv-combiner/internal/company/domain/service"
 	"log"
 	"os"
 )
@@ -23,21 +24,21 @@ func main() {
 	combineAndWrite(names, descriptions, combinedFile)
 }
 
-func combineAndWrite(names map[string]domain.Company, descriptions map[string]domain.Company, combinedFile string) {
+func combineAndWrite(names map[string]entity.Company, descriptions map[string]entity.Company, combinedFile string) {
 	combinedWriter, err := out.NewCSVWriter(combinedFile)
 	if err != nil {
 		log.Fatalf("Failed to create combined.csv: %s", err)
 	}
 	defer combinedWriter.Close()
 
-	service := domain.NewService(combinedWriter)
+	service := service.NewService(combinedWriter)
 	err = service.WriteCombined(names, descriptions)
 	if err != nil {
 		log.Fatalf("Failed to combineAndWrite combined.csv: %s", err)
 	}
 }
 
-func parseDescriptions(descriptionsFilePath string) map[string]domain.Company {
+func parseDescriptions(descriptionsFilePath string) map[string]entity.Company {
 	descriptionsReader, err := in.NewCSVReader(descriptionsFilePath)
 	if err != nil {
 		log.Fatalf("Failed to open descriptions file: %s", err)
@@ -51,7 +52,7 @@ func parseDescriptions(descriptionsFilePath string) map[string]domain.Company {
 	return descriptions
 }
 
-func parseNames(namesFilePath string) map[string]domain.Company {
+func parseNames(namesFilePath string) map[string]entity.Company {
 	namesReader, err := in.NewCSVReader(namesFilePath)
 	if err != nil {
 		log.Fatalf("Failed to open names file: %s", err)

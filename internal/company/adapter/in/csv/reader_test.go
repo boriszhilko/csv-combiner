@@ -1,7 +1,7 @@
 package csv
 
 import (
-	"csv-combiner/internal/company/domain"
+	"csv-combiner/internal/company/domain/entity"
 	"encoding/csv"
 	"os"
 	"path/filepath"
@@ -49,7 +49,7 @@ func TestReader_ParseNames(t *testing.T) {
 	}
 
 	// Perform assertions on the parsed companies
-	expected := map[string]domain.Company{
+	expected := map[string]entity.Company{
 		"1": {ID: "1", Name: "Company A"},
 		"2": {ID: "2", Name: "Company B"},
 	}
@@ -83,7 +83,7 @@ func TestReader_ParseDescriptions(t *testing.T) {
 	}
 
 	// Perform assertions on the parsed companies
-	expected := map[string]domain.Company{
+	expected := map[string]entity.Company{
 		"1": {ID: "1", Description: "Description for Company A"},
 		"2": {ID: "2", Description: "Description for Company B"},
 	}

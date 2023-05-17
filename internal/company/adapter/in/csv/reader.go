@@ -1,7 +1,7 @@
 package csv
 
 import (
-	"csv-combiner/internal/company/domain"
+	"csv-combiner/internal/company/domain/entity"
 	"encoding/csv"
 	"fmt"
 	"io"
@@ -28,14 +28,14 @@ func NewCSVReader(filename string) (*Reader, error) {
 	}, nil
 }
 
-func (r *Reader) ParseNames() (map[string]domain.Company, error) {
+func (r *Reader) ParseNames() (map[string]entity.Company, error) {
 	// Skip header row
 	_, err := r.reader.Read()
 	if err != nil {
 		return nil, fmt.Errorf("failed to read header: %s", err)
 	}
 
-	names := make(map[string]domain.Company)
+	names := make(map[string]entity.Company)
 
 	for {
 		record, err := r.reader.Read()
@@ -49,7 +49,7 @@ func (r *Reader) ParseNames() (map[string]domain.Company, error) {
 		companyID := record[0]
 		companyName := record[1]
 
-		company := domain.Company{
+		company := entity.Company{
 			ID:   companyID,
 			Name: companyName,
 		}
@@ -60,14 +60,14 @@ func (r *Reader) ParseNames() (map[string]domain.Company, error) {
 	return names, nil
 }
 
-func (r *Reader) ParseDescriptions() (map[string]domain.Company, error) {
+func (r *Reader) ParseDescriptions() (map[string]entity.Company, error) {
 	// Skip header row
 	_, err := r.reader.Read()
 	if err != nil {
 		return nil, fmt.Errorf("failed to read header: %s", err)
 	}
 
-	descriptions := make(map[string]domain.Company)
+	descriptions := make(map[string]entity.Company)
 
 	for {
 		record, err := r.reader.Read()
@@ -81,7 +81,7 @@ func (r *Reader) ParseDescriptions() (map[string]domain.Company, error) {
 		companyID := record[0]
 		companyDescription := record[1]
 
-		company := domain.Company{
+		company := entity.Company{
 			ID:          companyID,
 			Description: companyDescription,
 		}

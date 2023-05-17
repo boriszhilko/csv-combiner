@@ -1,14 +1,9 @@
-package domain
+package service
 
 import (
+	"csv-combiner/internal/company/domain/entity"
 	"fmt"
 )
-
-type Company struct {
-	ID          string
-	Name        string
-	Description string
-}
 
 type Writer interface {
 	Write([]string) error
@@ -25,7 +20,7 @@ func NewService(writer Writer) *Service {
 	}
 }
 
-func (s *Service) WriteCombined(names map[string]Company, descriptions map[string]Company) error {
+func (s *Service) WriteCombined(names map[string]entity.Company, descriptions map[string]entity.Company) error {
 	companies := s.combine(names, descriptions)
 	err := s.write(companies)
 	if err != nil {
@@ -35,11 +30,11 @@ func (s *Service) WriteCombined(names map[string]Company, descriptions map[strin
 	return nil
 }
 
-func (s *Service) combine(names map[string]Company, descriptions map[string]Company) []Company {
-	var combined []Company
+func (s *Service) combine(names map[string]entity.Company, descriptions map[string]entity.Company) []entity.Company {
+	var combined []entity.Company
 
 	for k, name := range names {
-		company := Company{
+		company := entity.Company{
 			ID:   k,
 			Name: name.Name,
 		}
@@ -57,7 +52,7 @@ func (s *Service) combine(names map[string]Company, descriptions map[string]Comp
 	return combined
 }
 
-func (s *Service) write(companies []Company) error {
+func (s *Service) write(companies []entity.Company) error {
 	// Write headers to combined.csv
 	headers := []string{"CompanyID", "CompanyName", "CompanyDescription"}
 	err := s.writer.Write(headers)
