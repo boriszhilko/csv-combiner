@@ -15,7 +15,7 @@ It is assumed that the file can be loaded entirely into memory. For large files,
 2. Build the project:
 
    ```bash
-   go build
+   go build ./cmd/csv-combiner
    ```
 
 ## Usage

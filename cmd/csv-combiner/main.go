@@ -31,8 +31,8 @@ func combineAndWrite(names map[string]entity.Company, descriptions map[string]en
 	}
 	defer combinedWriter.Close()
 
-	service := service.NewService(combinedWriter)
-	err = service.WriteCombined(names, descriptions)
+	companyService := service.NewService(combinedWriter)
+	err = companyService.WriteCombined(names, descriptions)
 	if err != nil {
 		log.Fatalf("Failed to combineAndWrite combined.csv: %s", err)
 	}
